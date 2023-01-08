@@ -7,7 +7,7 @@ export type Offer = {
   description: string,
   createdAt: Date,
   city: string,
-  previewImg: string,
+  thumbnail: string,
   pictures: string[],
   premium: boolean,
   rating: number,
