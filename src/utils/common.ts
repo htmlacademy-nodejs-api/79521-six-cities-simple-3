@@ -1,9 +1,6 @@
-import { OfferType } from '../../types/offer-type.enum.js';
 import { Offer } from '../../types/offer.type.js';
-import { Location } from '../../types/location.type.js';
-import { User } from '../../types/user.type.js';
 
-export const createOffer = (row: string) => {
+export const createOffer = (row: string): Offer => {
   const tokens = row.replace('\n', '').split('\t');
   const [
     title, description, createdAt, city,
@@ -20,15 +17,15 @@ export const createOffer = (row: string) => {
     pictures: pictures.split(';'),
     premium: Boolean(premium),
     rating: Number(rating),
-    type: OfferType[type as 'apartment' | 'house' | 'room' | 'hotel'],
+    type,
     rooms: Number(rooms),
     guests: Number(guests),
     price: Number(price),
     conveniences: conveniences.split(','),
-    author: { username, email, isPro: Boolean(isPro), avatar } as User,
+    author: { username, email, isPro: Boolean(isPro), avatar },
     commentsNum: Number(commentsCounter),
-    location: location as Location,
-  } as Offer;
+    location,
+  };
 };
 
 export const getErrorMessage = (error: unknown): string =>

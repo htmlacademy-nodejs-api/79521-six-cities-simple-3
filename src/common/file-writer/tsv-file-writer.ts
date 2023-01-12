@@ -1,6 +1,8 @@
 import { createWriteStream, WriteStream} from 'fs';
 import { FileWriterInterface } from './file-writer.interface.js';
 
+const WRITE_BUFFER_SIZE = 2 ** 16;
+
 export default class TSVFileWriter implements FileWriterInterface {
   private stream: WriteStream;
 
@@ -8,7 +10,7 @@ export default class TSVFileWriter implements FileWriterInterface {
     this.stream = createWriteStream(this.filename, {
       flags: 'w',
       encoding: 'utf8',
-      highWaterMark: 2 ** 16, // 64KB
+      highWaterMark: WRITE_BUFFER_SIZE, // 64KB
       autoClose: true,
     });
   }
