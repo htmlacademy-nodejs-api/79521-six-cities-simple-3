@@ -1,7 +1,7 @@
+import { Cities } from "./city.type.js"
+import { Location } from "./location.type.js"
+
 export type City = {
-  title: string,
-  location: {
-    latitude: string,
-    longitude: string,
-  }
+  title: Cities,
+  location: Location,
 }

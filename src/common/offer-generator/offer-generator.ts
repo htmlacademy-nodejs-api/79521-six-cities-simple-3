@@ -5,19 +5,34 @@ import { City } from '../../types/mock-data-city.type.js';
 import { generateRandomValue, getRandomItem, getRandomItems } from '../../utils/random.js';
 import { OfferGeneratorInterface } from './offer-generator.interface.js';
 
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
+enum WeekDays {
+  First = 1,
+  Last = 7,
+}
 
-const MIN_PRICE = 100;
-const MAX_PRICE = 100000;
-const MIN_RATING = 1;
-const MAX_RATING = 5;
-const MIN_ROOMS = 1;
-const MAX_ROOMS = 8;
-const MIN_GUESTS = 1;
-const MAX_GUESTS = 10;
-const MIN_COMMENTS = 0;
-const MAX_COMMENTS = 10;
+enum PriceRange {
+  Min = 100,
+  Max = 10000,
+}
+enum RatingRange {
+  Min = 1,
+  Max = 5,
+}
+
+enum RoomsRange {
+  Min = 1,
+  Max = 8,
+}
+
+enum GuestsRange {
+  Min = 1,
+  Max = 10,
+}
+
+enum CommentsRange {
+  Min = 0,
+  Max = 10,
+}
 
 export default class OfferGenerator implements OfferGeneratorInterface {
   constructor(private readonly mockData: MockData) {}
@@ -25,23 +40,22 @@ export default class OfferGenerator implements OfferGeneratorInterface {
   public generate(): string {
     const title = getRandomItem<string>(this.mockData.titles);
     const description = getRandomItem<string>(this.mockData.descriptions);
-    const createdAt = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
+    const createdAt = dayjs().subtract(generateRandomValue(WeekDays.First, WeekDays.Last), 'day').toISOString();
     const { title: city, location } = getRandomItem<City>(this.mockData.cities);
     const thumbnail = getRandomItem<string>(this.mockData.thumbnails);
     const pictures = getRandomItems<string>(this.mockData.pictures).join(';');
     const premium = Math.random() >= 0.5;
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1);
-    // Вопрос по типам у объекта Аренды, мы делали enum, но с сервака я просто выбираю 1 строчку, как правильно?
+    const rating = generateRandomValue(RatingRange.Min, RatingRange.Max, 1);
     const type = getRandomItem(this.mockData.types);
-    const rooms = generateRandomValue(MIN_ROOMS, MAX_ROOMS);
-    const guests = generateRandomValue(MIN_GUESTS, MAX_GUESTS);
-    const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
+    const rooms = generateRandomValue(RoomsRange.Min, RoomsRange.Max);
+    const guests = generateRandomValue(GuestsRange.Min, GuestsRange.Max);
+    const price = generateRandomValue(PriceRange.Min, PriceRange.Max).toString();
     const conveniences = getRandomItems<string>(this.mockData.conveniences).join(',');
     const username = getRandomItem<string>(this.mockData.usernames); // Посмотри тип в импорте из файла
     const email = getRandomItem<string>(this.mockData.emails);
     const isPro = Math.random() >= 0.5;
     const avatar = getRandomItem<string>(this.mockData.avatars);
-    const commentsCounter = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS);
+    const commentsCounter = generateRandomValue(CommentsRange.Min, CommentsRange.Max);
 
     return [
       title, description, createdAt, city,
