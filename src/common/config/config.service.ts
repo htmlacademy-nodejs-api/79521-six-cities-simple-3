@@ -13,8 +13,6 @@ export default class ConfigService implements ConfigInterface {
   constructor(@inject(Component.LoggerInterface) logger: LoggerInterface) {
     this.logger = logger;
 
-    // ВОПРОС: Зачем мы сохраняем конфиг для чтения из env файла,
-    // Если теперь это делает configSchema.load();
     const parsedOutput = config();
 
     if (parsedOutput.error) {
