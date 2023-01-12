@@ -1,0 +1,112 @@
+{
+  "api": {
+    "titles": [
+      "Двухкомнатные аппартаменты 76кв.м в центре города",
+      "Светлая просторная лофт-студия в современном ЖК",
+      "Королевская студия 60м с антикварной мебелью",
+      "Чистая и дешевая комната в Лаки Хостеле",
+      "Resort. Комната с большой двухспальной кроватью"
+    ],
+    "descriptions": [
+      "Очень близко к центру города. Есть бесплатная парковка. Ванная комната. Персональный Wi-fi.",
+      "Отличное месторасположение. Рядом вся инфрастуктура: магазины, остановки общественного транспорта и парк.",
+      "Чистые и просторные апартаменты. Бесплатная парковка. Апартаменты готовы к заселению с завтрашнего дня.",
+      "Рядом вся инфрастуктура: магазины, остановки общественного транспорта и парк. Оплатить можно при получении ключей.",
+      "Пожалуйста, при заселении с животными предупреждайте, дополнительная оплата. По всем вопросам звоните по телефону."
+    ],
+    "cities": [
+      {
+        "title": "Paris",
+        "location": {
+          "latitude": "48.85661",
+          "longitude": "2.351499"
+        }
+      },
+      {
+        "title": "Cologne",
+        "location": {
+          "latitude": "50.938361",
+          "longitude": "6.959974"
+        }
+      },
+      {
+        "title": "Brussels",
+        "location": {
+          "latitude": "50.846557",
+          "longitude": "4.351697"
+        }
+      },
+      {
+        "title": "Amsterdam",
+        "location": {
+          "latitude": "52.370216",
+          "longitude": "4.895168"
+        }
+      },
+      {
+        "title": "Hamburg",
+        "location": {
+          "latitude": "53.550341",
+          "longitude": "10.000654"
+        }
+      },
+      {
+        "title": "Dusseldorf",
+        "location": {
+          "latitude": "51.225402",
+          "longitude": "6.776314"
+        }
+      }
+    ],
+    "thumbnails": [
+      "picture1.jpg",
+      "picture2.jpg",
+      "picture3.jpg",
+      "picture4.jpg",
+      "picture5.jpg"
+    ],
+    "pictures": [
+      "property1.jpg",
+      "property2.jpg",
+      "property3.jpg",
+      "property4.jpg",
+      "property5.jpg"
+    ],
+    "types": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "conveniences": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "usernames": [
+      "PabloTechnic",
+      "InstaSamka",
+      "DmitryFilyukov",
+      "KaligulaMinus",
+      "AlexeyShewcov"
+    ],
+    "emails": [
+      "kratos32@gmail.com",
+      "yourmomfucker@mail.com",
+      "ilove2517@gmail.com",
+      "acab@true.com",
+      "andydufrane@shoushenk.com"
+    ],
+    "avatars": [
+      "mypic.png",
+      "whoisjohngalt.jpg",
+      "freal.png",
+      "notreal.jpg",
+      "getyoutoo.png"
+    ]
+  }
+}
