@@ -9,8 +9,6 @@ import { OfferServiceInterface } from '../modules/offer/offer-service.interface.
 import UserService from '../modules/user/user.service.js';
 import OfferService from '../modules/offer/offer.service.js';
 import { OfferModel } from '../modules/offer/offer.entity.js';
-import CategoryService from '../modules/category/category.service.js';
-import { CategoryModel } from '../modules/category/category.entity.js';
 import { UserModel } from '../modules/user/user.entity.js';
 import { Offer } from '../types/offer.type.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
