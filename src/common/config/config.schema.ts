@@ -55,4 +55,5 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'DB_NAME',
     default: 'course-nodejs-restapi'
+  }
 });
