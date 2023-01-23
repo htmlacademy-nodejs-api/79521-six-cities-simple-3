@@ -16,8 +16,6 @@ import { DatabaseInterface } from '../common/database-client/database.interface.
 import { ConfigInterface } from '../common/config/config.interface.js';
 import ConfigService from '../common/config/config.service.js';
 
-const DEFAULT_USER_PASSWORD = 'qwerty12345';
-
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
   private userService!: UserServiceInterface;

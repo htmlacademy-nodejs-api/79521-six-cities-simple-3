@@ -9,6 +9,7 @@ export const createOffer = (row: string): Offer => {
     rooms, guests, price, conveniences, username,
     email, isPro, avatar, commentsCounter, location
   ] = tokens;
+
   return {
     title,
     description,
@@ -31,7 +32,6 @@ export const createOffer = (row: string): Offer => {
 
 export const getErrorMessage = (error: unknown): string =>
   error instanceof Error ? error.message : '';
-
 
 export const createSHA256 = (line: string, salt: string): string => {
   const shaHasher = crypto.createHmac('sha256', salt);
