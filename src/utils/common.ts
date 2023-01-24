@@ -1,5 +1,7 @@
 import { Offer } from '../types/offer.type.js';
 import crypto from 'crypto';
+import { cities } from '../types/city.type.js';
+import { OfferType } from '../types/offer-type.enum.js';
 
 export const createOffer = (row: string): Offer => {
   const tokens = row.replace('\n', '').split('\t');
@@ -7,26 +9,27 @@ export const createOffer = (row: string): Offer => {
     title, description, createdAt, city,
     thumbnail, pictures, premium, rating, type,
     rooms, guests, price, conveniences, username,
-    email, isPro, avatar, commentsCounter, location
+    email, isPro, avatar, commentsCounter, latitude, longitude
   ] = tokens;
 
+  const validCity = cities.find((i) => city === i);
   return {
     title,
     description,
     createdAt: new Date(createdAt),
-    city,
+    city: validCity ?? cities[0],
     thumbnail,
     pictures: pictures.split(';'),
     premium: Boolean(premium),
     rating: Number(rating),
-    type,
+    type: type as OfferType,
     rooms: Number(rooms),
     guests: Number(guests),
     price: Number(price),
     conveniences: conveniences.split(','),
     author: { username, email, isPro: Boolean(isPro), avatar },
     commentsNum: Number(commentsCounter),
-    location,
+    location: { latitude: Number(latitude), longitude: Number(longitude) },
   };
 };
 
