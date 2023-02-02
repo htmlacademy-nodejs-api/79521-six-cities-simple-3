@@ -1,0 +1,489 @@
+openapi: 3.1.0
+info:
+   title: API сервер для проекта «Шесть городов(простой)».
+   description: |-
+     * Список ресурсов и маршрутов сервера «Шесть городов(простой)».
+   license:
+     name: MIT
+     url: https://opensource.org/licenses/MIT
+   version: 2.0.0
+
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+  - name: users
+    description: Действия с пользователем.
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+      requestBody:
+         description: Информация для создания нового пользователя.
+         content:
+           application/json:
+             schema:
+               $ref: '#/components/schemas/createUser'
+         required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userCreated'
+
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+      content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+      required: true
+
+      responses:
+        "200":
+          description: Пользователь завторизован. Токен пользователя.
+          content:
+            application/json:
+            # ВОПРОС: СХЕМА ОПРЕДЕЛЯЕТСЯ ДЛЯ ТЕЛА ОТВЕТА, ТОКЕН ПЕРЕДАЕТСЯ В ЗАГОЛОВКАХ, ОШИБКА?
+              schema:
+                $ref: '#/components/schemas/usersToken'
+
+        "404":
+          description: Пользователь не найден.
+
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      # Аналогичный вопрос со схемой, кажется, она тут не нужна
+      requestBody:
+        description: Токен пользователя.
+        content:
+          application/json:
+            schema:
+              type: object
+
+              properties:
+                id:
+                  type: string
+                  example: userId
+
+        required: true
+      # И в ответе токен летит в виде заголовка, описывать схем
+      responses:
+        "200":
+          description: Пользователь авторизован. Токен пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userValid'
+
+        "401":
+          description: Пользователь не авторизован.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получить список объявлений
+      description: Получает список всех объявлений.
+
+      responses:
+         "200":
+           description: Список предложений.
+           content:
+             application/json:
+              type: array
+              items:
+                $ref: '#/components/schemas/offersListItem'
+
+    post:
+      tags:
+        - offers
+      summary: Создать объявление
+      description: Создает новое объявление.
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+
+      responses:
+        "200":
+          description: Объявление создано успешно.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/createOffer'
+                  - $ref: '#/components/schemas/commentCounter'
+
+        "401":
+          description: Для размещения объявления, пользователь должен быть авторизован.
+
+        "400":
+          description: Не заполнены обязательные поля.
+
+  /offers/{offerId}:
+    patch:
+      tags:
+        - offers
+      summary: Редактирование объявления
+      description: Редактирует выбранное объявление и возвращает в качестве ответа
+        обновленный объект объявления.
+      requestBody:
+        description: Информация для редактирования предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+
+      responses:
+        "200":
+          description: Отредактированное предложение по аренде.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/createOffer'
+                  - $ref: '#/components/schemas/commentCounter'
+
+        "400":
+          description: Незаполненны обязательные поля.
+
+        "401":
+          description: Пользователь должен быть авторизован.
+
+        "403":
+          description: У пользователя нет прав редактировать данное предложение по аренде.
+
+        '404':
+          description: Предложение по аренде не найдено.
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление объявления
+      description: Удаляет выбранное объявление и все связанные с ним комментарии.
+
+      responses:
+         "200":
+           description: Предложение по аренде удалено.
+
+         "401":
+           description: Пользователь должен быть авторизован.
+
+         "403":
+           description: У пользователя нет прав редактировать данное предложение по аренде.
+
+         "404":
+           description: Предложение по аренде не найдено.
+
+    get:
+      tags:
+        - offers
+      summary: Получение информации по одному объявлению.
+      description: Получение детальной информации по одному объявлению.
+
+      responses:
+        "200":
+          description: Информация о предложений.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/createOffer'
+                  - $ref: '#/components/schemas/commentCounter'
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Список комментариев объявления
+      description: Получение списка комментариев для определенного объявления.
+
+      responses:
+         "200":
+           description: Список комментариев.
+           content:
+             application/json:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/comment'
+                  - $ref: '#/components/schemas/commentDate'
+
+    post:
+      tags:
+        - comments
+      summary: Добавление комментария
+      description: Добавление комментария к определенному объявлению.
+      requestBody:
+        description: Информация для создания нового комментария.
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/comment'
+        required: true
+
+      responses:
+        "200":
+          description: Комментарий создан, присылаю его в ответ.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/comment'
+                  - $ref: '#/components/schemas/commentDate'
+
+        "401":
+          description: Для размещения комментария, пользователь должен быть авторизован.
+
+        "400":
+          description: Незаполненны обязательные поля.
+
+components:
+  schemas:
+    createUser:
+      type: object
+
+      properties:
+        username:
+          type: string
+          example: Keks
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        password:
+          type: string
+          example: qwerty12345
+
+    userCreated:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        username:
+          type: string
+          example: Keks
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+    userValid:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+        username:
+          type: string
+          example: Keks
+
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+    loginUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+
+        password:
+          type: string
+          example: qwerty12345
+
+    offersListItem:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: id
+
+        title:
+          type: string
+          example: Property name
+
+        createdAt:
+           type: Date
+           example: 10.12.22
+
+        offerType:
+          type: string
+          example: apartment
+
+        city:
+          type: string
+          example: Paris
+
+        price:
+          type: number
+          example: 1500
+
+        previewImg:
+          type: string
+          example: imagePath
+
+        isPremium:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 3.7
+
+        commentsCounter:
+          type: number
+          example: 3
+
+    createOffer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Property name
+
+        description:
+          type: string
+          example: Property description
+
+        createdAt:
+          type: Date
+          example: 10.12.22
+
+        city:
+          type: string
+          example: Paris
+
+        previewImg:
+          type: string
+          example: imagePath
+
+        images:
+          type: array
+          items:
+            type: string
+            example: imagePath
+
+        isPremium:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 3.7
+
+        offerType:
+          type: string
+          example: apartment
+
+        rooms:
+          type: number
+          example: 3
+
+        guests:
+          type: number
+          example: 3
+
+        price:
+          type: number
+          example: 1500
+
+        conveniences:
+          type: array
+          items:
+            type: string
+            example: bathroom
+
+        host:
+          type: string
+          example: testId
+
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 365655
+            longitude:
+              type: number
+              example: 656565
+
+    commentCounter:
+      type: number
+      example: 15
+
+    commentDate:
+      type: Date
+      example: 23.10.22
+
+    comment:
+      type: object
+
+      properties:
+        text:
+          type: string
+          example: text comment
+
+        rating:
+          type: number
+          example: 3
+
+        author:
+          type: string
+          example: Valik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
