@@ -2,7 +2,6 @@ import { OfferType } from '../../../types/offer-type.enum.js';
 import { Cities } from '../../../types/city.type.js';
 import { Location } from '../../../types/location.type.js';
 
-// Как следствие, вообще наугад тут типов наставил
 export default class CreateOfferDto {
   public title!: string;
   public description!: string;

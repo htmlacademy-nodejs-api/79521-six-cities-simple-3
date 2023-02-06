@@ -14,9 +14,6 @@ export interface OfferEntity extends defaultClasses.Base {}
   }
 })
 
-// ВОПРОС: Почему в отличие от сущности USER тут нет конструктора, в который мы складываем данные
-// Или тут она должна быть?  User.Entity:16
-// Вообще наБУМ тут поля писал
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ minlength: 10, maxLength: 100, trim: true, required: true })
   public title!: string;

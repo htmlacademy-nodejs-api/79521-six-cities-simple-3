@@ -49,46 +49,35 @@ paths:
       summary: Авторизация пользователя
       description: Авторизует пользователя на основе логина и пароля
       content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/loginUser'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/loginUser'
       required: true
 
       responses:
         "200":
           description: Пользователь завторизован. Токен пользователя.
-          content:
-            application/json:
-            # ВОПРОС: СХЕМА ОПРЕДЕЛЯЕТСЯ ДЛЯ ТЕЛА ОТВЕТА, ТОКЕН ПЕРЕДАЕТСЯ В ЗАГОЛОВКАХ, ОШИБКА?
-              schema:
-                $ref: '#/components/schemas/usersToken'
+          security:
+            - SessionToken: []
+
+        "401":
+          description: Неправильный логин или пароль.
 
         "404":
           description: Пользователь не найден.
 
+  /users/user-check:
     get:
       tags:
         - users
       summary: Проверка состояния пользователя
       description: Возвращает информацию по авторизованному пользователю
-      # Аналогичный вопрос со схемой, кажется, она тут не нужна
-      requestBody:
-        description: Токен пользователя.
-        content:
-          application/json:
-            schema:
-              type: object
+      security:
+        - SessionToken: []
 
-              properties:
-                id:
-                  type: string
-                  example: userId
-
-        required: true
-      # И в ответе токен летит в виде заголовка, описывать схем
       responses:
         "200":
-          description: Пользователь авторизован. Токен пользователя.
+          description: Пользователь авторизован.
           content:
             application/json:
               schema:
@@ -104,6 +93,35 @@ paths:
       summary: Загрузить изображение аватара
       description: Загружает изображение аватара пользователя. Изображение
         аватара должно быть в формате `png` или `jpg`.
+      security:
+        - SessionToken: []
+
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+                  description: The user avatar image file to be uploaded
+
+      responses:
+        201:
+          description: Avatar uploaded successfully
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
 
   /offers:
     get:
@@ -157,6 +175,13 @@ paths:
       summary: Редактирование объявления
       description: Редактирует выбранное объявление и возвращает в качестве ответа
         обновленный объект объявления.
+      parameters:
+        - in: path
+          name: offerId
+          required: true
+          schema:
+            type: integer
+
       requestBody:
         description: Информация для редактирования предложения.
         content:
@@ -192,6 +217,12 @@ paths:
         - offers
       summary: Удаление объявления
       description: Удаляет выбранное объявление и все связанные с ним комментарии.
+      parameters:
+        - in: path
+          name: offerId
+          required: true
+          schema:
+            type: integer
 
       responses:
          "200":
@@ -211,6 +242,12 @@ paths:
         - offers
       summary: Получение информации по одному объявлению.
       description: Получение детальной информации по одному объявлению.
+      parameters:
+        - in: path
+          name: offerId
+          required: true
+          schema:
+            type: integer
 
       responses:
         "200":
@@ -228,6 +265,12 @@ paths:
         - comments
       summary: Список комментариев объявления
       description: Получение списка комментариев для определенного объявления.
+      parameters:
+        - in: path
+          name: offerId
+          required: true
+          schema:
+            type: integer
 
       responses:
          "200":
@@ -245,6 +288,13 @@ paths:
         - comments
       summary: Добавление комментария
       description: Добавление комментария к определенному объявлению.
+      parameters:
+        - in: path
+          name: offerId
+          required: true
+          schema:
+            type: integer
+
       requestBody:
         description: Информация для создания нового комментария.
         content:
@@ -268,6 +318,12 @@ paths:
 
         "400":
           description: Незаполненны обязательные поля.
+
+securityDefinitions:
+  SessionToken:
+    type: apiKey
+    name: X-Session-Token
+    in: header
 
 components:
   schemas:
@@ -303,6 +359,10 @@ components:
           type: string
           example: keks@htmlacademy.ru
 
+        isPro:
+          type: boolean
+          example: false
+
     userValid:
       type: object
 
@@ -318,6 +378,10 @@ components:
         email:
           type: string
           example: keks@htmlacademy.ru
+
+        isPro:
+          type: boolean
+          example: false
 
     loginUser:
       type: object
@@ -472,6 +536,18 @@ components:
         author:
           type: string
           example: Valik
+
+    uploadAvatar:
+      type: object
+
+      properties:
+        images:
+          type: string
+          format: binary
+
+        required:
+          - image
+
 
 
 
