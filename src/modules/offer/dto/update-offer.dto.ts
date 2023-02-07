@@ -16,6 +16,5 @@ export default class UpdateOfferDto {
   public guests?: number;
   public price?: number;
   public conveniences?: string[];
-  public commentsNum?: number;
   public location?: Location;
 }
