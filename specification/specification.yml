@@ -129,6 +129,12 @@ paths:
         - offers
       summary: Получить список объявлений
       description: Получает список всех объявлений.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            example: 1
 
       responses:
          "200":
@@ -259,18 +265,19 @@ paths:
                   - $ref: '#/components/schemas/createOffer'
                   - $ref: '#/components/schemas/commentCounter'
 
-  /comments/{offerId}:
+  /comments:
     get:
       tags:
         - comments
       summary: Список комментариев объявления
       description: Получение списка комментариев для определенного объявления.
       parameters:
-        - in: path
+        - in: query
           name: offerId
           required: true
           schema:
             type: integer
+            example: 1
 
       responses:
          "200":
@@ -289,11 +296,12 @@ paths:
       summary: Добавление комментария
       description: Добавление комментария к определенному объявлению.
       parameters:
-        - in: path
+        - in: query
           name: offerId
           required: true
           schema:
             type: integer
+            example: 1
 
       requestBody:
         description: Информация для создания нового комментария.
@@ -347,10 +355,6 @@ components:
       type: object
 
       properties:
-        id:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
-
         username:
           type: string
           example: Keks
@@ -362,6 +366,10 @@ components:
         isPro:
           type: boolean
           example: false
+
+        avatarPath:
+          type: string
+          example: torrance.png
 
     userValid:
       type: object
@@ -383,6 +391,10 @@ components:
           type: boolean
           example: false
 
+        avatarPath:
+          type: string
+          example: torrance.png
+
     loginUser:
       type: object
 
@@ -399,10 +411,6 @@ components:
       type: object
 
       properties:
-        id:
-          type: string
-          example: id
-
         title:
           type: string
           example: Property name
@@ -417,13 +425,13 @@ components:
 
         city:
           type: string
-          example: Paris
+          $ref: '#/components/schemas/city'
 
         price:
           type: number
           example: 1500
 
-        previewImg:
+        thumbnail:
           type: string
           example: imagePath
 
@@ -459,11 +467,11 @@ components:
           type: string
           example: Paris
 
-        previewImg:
+        thumbnail:
           type: string
           example: imagePath
 
-        images:
+        pictures:
           type: array
           items:
             type: string
@@ -499,19 +507,12 @@ components:
             type: string
             example: bathroom
 
-        host:
+        userId:
           type: string
           example: testId
 
         location:
-          type: object
-          properties:
-            latitude:
-              type: number
-              example: 365655
-            longitude:
-              type: number
-              example: 656565
+          $ref: '#/components/schemas/location'
 
     commentCounter:
       type: number
@@ -547,6 +548,25 @@ components:
 
         required:
           - image
+
+    location:
+      type: object
+      properties:
+        latitude:
+          type: number
+          example: 48.85661
+        longitude:
+          type: number
+          example: 2.351499
+
+    city:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Paris
+        location:
+          $ref: '#/components/schemas/location'
 
 
 
