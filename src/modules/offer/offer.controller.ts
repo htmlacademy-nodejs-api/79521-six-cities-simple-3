@@ -19,7 +19,7 @@ type ParamsGetOffer = {
 }
 
 @injectable()
-export default class UserController extends Controller {
+export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,

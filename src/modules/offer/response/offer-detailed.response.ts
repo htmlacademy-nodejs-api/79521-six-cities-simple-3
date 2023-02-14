@@ -47,7 +47,7 @@ export default class OfferResponseDetailed {
   @Expose()
   public commentsCount!: number;
 
-  @Expose({ name: 'user'})
+  @Expose({ name: 'userId'})
   @Type(() => UserResponse)
   public user!: UserResponse;
 
