@@ -1,4 +1,141 @@
 # Тестовые данные
- GET http://localhost:3123/api HTTP/1.1
+GET http://localhost:3123/api HTTP/1.1
 
- ###
+###
+
+# Пользователи
+## Регистрация пользователя
+
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans@overlook.net",
+  "username": "Jack",
+  "password": "shining"
+}
+
+###
+
+## Авторизация пользователя
+
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torans@overlook.net",
+  "password": "123456"
+}
+
+###
+
+## Проверка состояния пользователя
+
+GET http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+Access-Token: Barier bfb54f6bfb46bf45f
+
+###
+
+# Предложения
+## Получение списка предложений
+
+GET http://localhost:5000/offers/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Предложения
+## Получение 2х предложений из списка
+
+GET http://localhost:5000/offers/?limit=2 HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Предложения
+## Создание предложения
+
+POST http://localhost:5000/offers/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "some title",
+  "createdAt": "2022-05-12T11:56:37.573Z",
+  "city": {
+    "name": "Cologne",
+    "location": {
+      "latitude": 50.938361,
+      "longitude": 6.959974
+    }
+  },
+  "thumbnail": "imagePath",
+  "isPremium": true,
+  "rating":  3.5,
+  "offerType": "Room",
+  "price": 36556,
+  "description": "some description",
+  "pictures": ["imagePath1", "imagePath2"],
+  "rooms": 4,
+  "guests": 2,
+  "conveniences": [],
+  "userId": "63d2588093ede432719fcb12",
+  "location": {
+    "latitude": 53.550341,
+    "longitude": 10.000654
+  }
+}
+
+###
+
+# Предложения
+## Получение детальной информации о предложении
+
+GET http://localhost:5000/offers/63d2588093ede432719fcb14 HTTP/1.1
+Content-Type: application/json
+
+###
+
+
+# Предложения
+## Редактирование предложения
+
+PUT http://localhost:5000/offers/63d2588093ede432719fcb67 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "some new title",
+  "createdAt": "2022-08-12T11:56:37.573Z",
+  "city": {
+    "name": "Paris",
+    "location": {
+      "latitude": 50.938361,
+      "longitude": 6.959974
+    }
+  },
+  "thumbnail": "imagePath",
+  "isPremium": true,
+  "rating":  3.5,
+  "type": "Room",
+  "price": 36556,
+  "description": "some description",
+  "pictures": ["imagePath1", "imagePath2"],
+  "rooms": 4,
+  "guests": 2,
+  "conveniences": [],
+  "userId": "63d2588093ede432719fcb12",
+  "location": {
+    "latitude": 53.550341,
+    "longitude": 10.000654
+  }
+}
+
+###
+
+# Предложения
+## Удаление предложения
+
+DELETE http://localhost:5000/offers/63d267a23805913a8ca72d57 HTTP/1.1
+Content-Type: application/json
+
+###

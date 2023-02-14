@@ -1,3 +1,7 @@
-export const cities = ['Amsterdam', 'Dusseldorf', 'Brussels', 'Cologne', 'Paris', 'Hamburg'] as const;
+import { Cities } from './cities.type.js';
+import { Location } from './location.type.js';
 
-export type Cities = typeof cities[number];
+export type City = {
+  name: Cities,
+  location: Location
+}
