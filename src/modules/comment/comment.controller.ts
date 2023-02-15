@@ -8,37 +8,49 @@ import { CommentServiceInterface } from './comment-service.interface.js';
 import { StatusCodes } from 'http-status-codes';
 import CommentResponse from './response/comment.response.js';
 import { fillDTO } from '../../utils/common.js';
+import CreateCommentDto from './dto/create-comment.dto.js';
+import { OfferServiceInterface } from '../offer/offer-service.interface.js';
+import HttpError from '../../common/errors/http-error.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
   ) {
     super(logger);
 
     this.logger.info('Register routes for CommentController');
 
-    this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(CreateCommentDto)
+      ]
+    });
   }
 
-  public async index(req: Request, res: Response): Promise<void> {
-    // ВОПРОС: КАК правильно описать тип для offerID
-    // Код обработчика
-    // const offerId: string = req.query.offerId;
+  public async create(
+    { body }: Request<object, object, CreateCommentDto>,
+    res: Response
+  ): Promise<void> {
 
-    // if (!offerId) {
-    //   this.logger.error('Parameter OfferId is undefined');
-    //   return;
-    // }
+    if (!await this.offerService.exists(body.offerId)) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${body.offerId} not found.`,
+        'CommentController'
+      );
+    }
 
-    // const comments = await this.commentService.findByOfferId(offerId);
-    // const categoryResponse = fillDTO(CategoryResponse, categories);
-    // this.send(res, StatusCodes.OK, categoryResponse);
-  }
-
-  public create(_req: Request, _res: Response): void {
-    // Код обработчика
+    const comment = await this.commentService.create(body);
+    await this.offerService.incCommentCount(body.offerId);
+    this.created(res, fillDTO(CommentResponse, comment));
   }
 }

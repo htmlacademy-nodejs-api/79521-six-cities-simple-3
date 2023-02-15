@@ -7,6 +7,7 @@ import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
+import UpdateOfferDto from './dto/update-offer.dto.js';
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
@@ -39,7 +40,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async updateById(offerId: string, dto: CreateOfferDto): Promise<DocumentType<OfferEntity> | null> {
+  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
       .populate(['userId'])

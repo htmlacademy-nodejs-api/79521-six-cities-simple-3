@@ -265,14 +265,14 @@ paths:
                   - $ref: '#/components/schemas/createOffer'
                   - $ref: '#/components/schemas/commentCounter'
 
-  /comments:
+  /{offerId}/comments:
     get:
       tags:
         - comments
       summary: Список комментариев объявления
       description: Получение списка комментариев для определенного объявления.
       parameters:
-        - in: query
+        - in: path
           name: offerId
           required: true
           schema:
