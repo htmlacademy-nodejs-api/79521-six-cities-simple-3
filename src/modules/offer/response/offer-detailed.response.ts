@@ -6,6 +6,9 @@ import { Location } from '../../../types/location.type';
 
 export default class OfferResponseDetailed {
   @Expose()
+  public id!: string;
+
+  @Expose()
   public title!: string;
 
   @Expose()
@@ -18,7 +21,7 @@ export default class OfferResponseDetailed {
   public type!: OfferType;
 
   @Expose()
-  public createdAt!: Date;
+  public createdAt!: string;
 
   @Expose()
   public city!: City;

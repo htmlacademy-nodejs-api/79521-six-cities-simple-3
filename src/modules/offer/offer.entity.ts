@@ -26,7 +26,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: City;
 
-  @prop()
+  @prop({ required: true })
   public thumbnail!: string;
 
   @prop({
@@ -41,6 +41,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public rating!: number;
 
   @prop({
+    required: true,
     type: () => String,
     enum: OfferType,
   })

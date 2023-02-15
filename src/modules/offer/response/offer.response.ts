@@ -13,7 +13,7 @@ export default class OfferResponseBrief {
   public type!: OfferType;
 
   @Expose()
-  public createdAt!: Date;
+  public createdAt!: string;
 
   @Expose()
   public city!: City;
