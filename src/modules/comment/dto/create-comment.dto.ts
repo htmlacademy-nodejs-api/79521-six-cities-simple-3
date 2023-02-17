@@ -1,4 +1,4 @@
-import { IsMongoId, IsString, Length, Min, Max, IsNumber } from 'class-validator';
+import { IsMongoId, IsString, Length, Min, Max } from 'class-validator';
 
 export default class CreateCommentDto {
   @IsString({message: 'text is required'})
@@ -8,7 +8,6 @@ export default class CreateCommentDto {
   @IsMongoId({message: 'offerId field must be a valid id'})
   public offerId!: string;
 
-  @IsMongoId({message: 'userId field must be a valid id'})
   public userId!: string;
 
   @Min(1, { message: 'Minimum rating must be 1' })

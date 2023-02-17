@@ -1,7 +1,7 @@
 import { OfferType } from '../../../types/offer-type.enum.js';
 import { City } from '../../../types/city.type.js';
 import { Location } from '../../../types/location.type.js';
-import { IsString, IsArray, IsDateString, IsBoolean, IsEnum, IsInt, IsMongoId, Max, MaxLength, Min, MinLength, ValidateNested, ArrayMinSize, ArrayMaxSize } from 'class-validator';
+import { IsString, IsArray, IsDateString, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, ValidateNested, ArrayMinSize, ArrayMaxSize } from 'class-validator';
 
 export default class CreateOfferDto {
   @MinLength(10, {message: 'Minimum title length must be 10'})
@@ -54,7 +54,6 @@ export default class CreateOfferDto {
   @IsArray({message: 'Field сonveniences must be an array'})
   public conveniences!: string[];
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 
   @ValidateNested({ message: 'Location must be specific format' })

@@ -41,11 +41,9 @@ Content-Type: image/png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
-## Проверка состояния пользователя
-
+## Проверка токена пользователя
 GET http://localhost:5000/users/login HTTP/1.1
-Content-Type: application/json
-Access-Token: Barier bfb54f6bfb46bf45f
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTM0MDgyZDFlMDU5MDBlMmVmYWVjMyIsImlhdCI6MTY1MzkwMzA1OSwiZXhwIjoxNjU0MDc1ODU5fQ.yMN3DID7PoMO1I4-fgwjGVWjdfnpQsCA8TL02APb-rU
 
 ###
 
