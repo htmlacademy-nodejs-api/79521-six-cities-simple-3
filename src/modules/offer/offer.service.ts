@@ -23,7 +23,7 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
+  public find(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     return this.offerModel
       .find({}, {}, {limit})
@@ -32,6 +32,10 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel
+      .exists({ _id: documentId })) !== null;
+  }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this

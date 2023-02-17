@@ -13,6 +13,7 @@ import { OfferServiceInterface } from '../offer/offer-service.interface.js';
 import HttpError from '../../common/errors/http-error.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -30,6 +31,7 @@ export default class CommentController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto)
       ]
@@ -37,10 +39,11 @@ export default class CommentController extends Controller {
   }
 
   public async create(
-    { body }: Request<object, object, CreateCommentDto>,
+    req: Request<object, object, CreateCommentDto>,
     res: Response
   ): Promise<void> {
 
+    const { body } = req;
     if (!await this.offerService.exists(body.offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
@@ -49,7 +52,7 @@ export default class CommentController extends Controller {
       );
     }
 
-    const comment = await this.commentService.create(body);
+    const comment = await this.commentService.create({...body, userId: req.user.id});
     await this.offerService.incCommentCount(body.offerId);
     this.created(res, fillDTO(CommentResponse, comment));
   }
