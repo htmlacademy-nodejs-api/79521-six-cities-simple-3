@@ -28,6 +28,7 @@ export default class Application {
   }
 
   public initMiddleware() {
+    this.expressApp.use(express.urlencoded({ extended: true }));
     this.expressApp.use(express.json());
     this.expressApp.use(
       '/upload',

@@ -1,7 +1,7 @@
 import { OfferType } from '../../../types/offer-type.enum.js';
 import { City } from '../../../types/city.type.js';
 import { Location } from '../../../types/location.type.js';
-import { IsOptional, IsArray, IsDateString, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsString, ArrayMinSize, ArrayMaxSize, ValidateNested } from 'class-validator';
+import { IsOptional, IsArray, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsString, ArrayMinSize, ArrayMaxSize, IsObject } from 'class-validator';
 
 export default class UpdateOfferDto {
   @IsOptional()
@@ -15,10 +15,7 @@ export default class UpdateOfferDto {
   public description?: string;
 
   @IsOptional()
-  @IsDateString({}, {message: 'postDate must be valid ISO date'})
-  public createdAt?: Date;
-
-  // ВОПРОС: Как задавать валидацию Union Type
+  @IsObject({message: 'City should be represented as object'})
   public city?: City;
 
   @IsOptional()
@@ -67,6 +64,6 @@ export default class UpdateOfferDto {
   public conveniences?: string[];
 
   @IsOptional()
-  @ValidateNested({ message: 'Coordinate must be specific format' })
+  @IsObject({message: 'Location should be represented as object'})
   public location?: Location;
 }

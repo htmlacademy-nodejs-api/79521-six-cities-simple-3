@@ -1,7 +1,7 @@
 import { OfferType } from '../../../types/offer-type.enum.js';
 import { City } from '../../../types/city.type.js';
 import { Location } from '../../../types/location.type.js';
-import { IsString, IsArray, IsDateString, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, ValidateNested, ArrayMinSize, ArrayMaxSize } from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsObject } from 'class-validator';
 
 export default class CreateOfferDto {
   @MinLength(10, {message: 'Minimum title length must be 10'})
@@ -12,19 +12,8 @@ export default class CreateOfferDto {
   @MaxLength(1024, {message: 'Maximum description length must be 1024'})
   public description!: string;
 
-  @IsDateString({}, {message: 'postDate must be valid ISO date'})
-  public createdAt!: Date;
-
-  // Вопрос: как прописать валидацию для такого объекта
+  @IsObject({message: 'City should be represented as object'})
   public city!: City;
-
-  @IsString({message: 'Thumbnail is required'})
-  public thumbnail!: string;
-
-  @IsArray({message: 'Field pictures must be an array'})
-  @ArrayMinSize(6, { message: 'Minimum must be 6 picture' })
-  @ArrayMaxSize(6, { message: 'Maximum must be 6 picture' })
-  public pictures!: string[];
 
   @IsBoolean({message: 'Field premium must be boolean'})
   public premium!: boolean;
@@ -56,6 +45,6 @@ export default class CreateOfferDto {
 
   public userId!: string;
 
-  @ValidateNested({ message: 'Location must be specific format' })
+  @IsObject({message: 'Location should be represented as object'})
   public location!: Location;
 }

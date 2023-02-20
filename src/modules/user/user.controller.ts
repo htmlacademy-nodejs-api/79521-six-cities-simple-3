@@ -17,6 +17,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import LoggedUserResponse from './response/logged-user.response.js';
 import { JWT_ALGORITM } from './user.constant.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -32,7 +33,10 @@ export default class UserController extends Controller {
       path: '/register',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
+      middlewares: [
+        new ValidateDtoMiddleware(CreateUserDto),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
     });
     this.addRoute({
       path: '/login',
@@ -52,7 +56,10 @@ export default class UserController extends Controller {
     this.addRoute({
       path: '/login',
       method: HttpMethod.Get,
-      handler: this.checkAuthenticate
+      handler: this.checkAuthenticate,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
     });
   }
 
@@ -113,6 +120,6 @@ export default class UserController extends Controller {
   public async checkAuthenticate(req: Request, res: Response) {
     const user = await this.userService.findByEmail(req.user.email);
 
-    this.ok(res, fillDTO(LoggedUserResponse, user));
+    this.ok(res, fillDTO(UserResponse, user));
   }
 }

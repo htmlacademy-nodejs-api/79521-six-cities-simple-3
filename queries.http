@@ -10,9 +10,10 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans@overlook.net",
+  "email": "jsskgj@overlook.net",
   "username": "Jack",
-  "password": "shining"
+  "password": "shining",
+  "isPro": true
 }
 
 ###
@@ -23,8 +24,8 @@ POST http://localhost:5000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans@overlook.net",
-  "password": "123456"
+  "email": "jsskgj@overlook.net",
+  "password": "shining"
 }
 
 ###
@@ -43,7 +44,7 @@ Content-Type: image/png
 ###
 ## Проверка токена пользователя
 GET http://localhost:5000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjYyOTM0MDgyZDFlMDU5MDBlMmVmYWVjMyIsImlhdCI6MTY1MzkwMzA1OSwiZXhwIjoxNjU0MDc1ODU5fQ.yMN3DID7PoMO1I4-fgwjGVWjdfnpQsCA8TL02APb-rU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
 
 ###
 
@@ -68,10 +69,10 @@ Content-Type: application/json
 
 POST http://localhost:5000/offers/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
 
 {
-  "title": "some title",
-  "createdAt": "2022-05-12T11:56:37.573Z",
+  "title": "some new title",
   "city": {
     "name": "Cologne",
     "location": {
@@ -79,17 +80,15 @@ Content-Type: application/json
       "longitude": 6.959974
     }
   },
-  "thumbnail": "imagePath",
-  "isPremium": true,
+  "premium": true,
   "rating":  3.5,
-  "offerType": "Room",
+  "type": "room",
   "price": 36556,
-  "description": "some description",
-  "pictures": ["imagePath1", "imagePath2"],
+  "description": "some description description description",
   "rooms": 4,
   "guests": 2,
   "conveniences": [],
-  "userId": "63d2588093ede432719fcb12",
+  "userId": "63f381e4a6eb9c65cf84a767",
   "location": {
     "latitude": 53.550341,
     "longitude": 10.000654
@@ -101,7 +100,7 @@ Content-Type: application/json
 # Предложения
 ## Получение детальной информации о предложении
 
-GET http://localhost:5000/offers/63d2588093ede432719fcb14 HTTP/1.1
+GET http://localhost:5000/offers/63f3873ec17693252f40c401 HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -110,13 +109,13 @@ Content-Type: application/json
 # Предложения
 ## Редактирование предложения
 
-PATCH  http://localhost:5000/offers/63d2588093ede432719fcb67 HTTP/1.1
+PATCH  http://localhost:5000/offers/63f3873ec17693252f40c401 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
 
 {
   "title": "some new title",
-  "thumbnail": "imagePath",
-  "price": 36556,
+  "price": 36557
 }
 
 ###
@@ -124,24 +123,28 @@ Content-Type: application/json
 # Предложения
 ## Удаление предложения
 
-DELETE http://localhost:5000/offers/63d267a23805913a8ca72d57 HTTP/1.1
+DELETE http://localhost:5000/offers/63f3873ec17693252f40c401 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
 
 ###
 
 ## Создать комментарий
 POST http://localhost:5000/comments HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
 
 {
   "text": "Как обстоят дела с коробками? Фирменная упаковка сохранена?",
-  "offerId": "628a27d729c45f2bf9f6806a",
-  "userId": "628a27d729c45f2bf9f67ff2"
+  "offerId": "63f38b5dc17693252f40c412",
+  "userId": "63f381e4a6eb9c65cf84a767",
+  "rating": 3.3
 }
 
 ###
 
 ## Список комментариев к объявлению
-GET http://localhost:5000/offers/628a27d729c45f2bf9f6806a/comments HTTP/1.1
+GET http://localhost:5000/offers/63f38b5dc17693252f40c412/comments HTTP/1.1
+Content-Type: application/json
 
 ###

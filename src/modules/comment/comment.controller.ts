@@ -11,7 +11,6 @@ import { fillDTO } from '../../utils/common.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
 import { OfferServiceInterface } from '../offer/offer-service.interface.js';
 import HttpError from '../../common/errors/http-error.js';
-import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
@@ -27,12 +26,11 @@ export default class CommentController extends Controller {
     this.logger.info('Register routes for CommentController');
 
     this.addRoute({
-      path: '/:offerId',
+      path: '/',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto)
       ]
     });

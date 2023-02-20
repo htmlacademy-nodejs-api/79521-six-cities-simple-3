@@ -8,8 +8,8 @@ export default class CreateUserDto {
   @Length(1, 15, {message: 'Min length is 1, max is 15'})
   public username!: string;
 
-  // Вопрос: Нужна ли какая-то еще валидация для avatar?
   @IsOptional()
+  @IsString({message: 'Avatar path is required'})
   public avatar?: string;
 
   @IsBoolean({message: 'Premium flag should be boolean'})
