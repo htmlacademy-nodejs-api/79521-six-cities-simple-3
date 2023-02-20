@@ -18,9 +18,6 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
-import { ConfigInterface } from '../../common/config/config.interface.js';
-import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
-import { UploadFilesMiddleware } from '../../common/middlewares/upload-files.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -32,7 +29,6 @@ export default class OfferController extends Controller {
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,
   ) {
     super(logger);
     this.logger.info('Register routes for OfferController...');
@@ -45,8 +41,6 @@ export default class OfferController extends Controller {
       middlewares: [
         new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateOfferDto),
-        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'thumbnail'),
-        new UploadFilesMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'pictures'),
       ]
     });
     this.addRoute({
@@ -110,8 +104,6 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    // Вопрос: Теперь при получении Превью оффера и Картинок оффера через Мидлварю, первоначально в запросе их нет
-    // Значит, при определении типа на строке 109, CreateOffer даст ошибку отсутствия полей
     req: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {

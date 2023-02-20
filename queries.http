@@ -10,7 +10,7 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "jsskgj@overlook.net",
+  "email": "jssalekgfj@overlook.net",
   "username": "Jack",
   "password": "shining",
   "isPro": true
@@ -31,7 +31,8 @@ Content-Type: application/json
 ###
 ## Отправка аватарки пользователю
 
-POST http://localhost:5000/users/62823cb2c5a64ce9f1b50eb6/avatar HTTP/1.1
+POST http://localhost:5000/users/63f381e4a6eb9c65cf84a767/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkyNjAyNiwiZXhwIjoxNjc3MDk4ODI2fQ.hl3Rk_Z579d88pL4BhPyOydRbOqTezWV61dBNvwAPqY
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -80,6 +81,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZ
       "longitude": 6.959974
     }
   },
+  "thumbnail": "avatarname.png",
+  "pictures": ["picture1.jpg", "picture2.jpg", "picture3.jpg", "picture4.jpg", "picture5.jpg", "picture6.jpg"],
   "premium": true,
   "rating":  3.5,
   "type": "room",
@@ -88,7 +91,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZ
   "rooms": 4,
   "guests": 2,
   "conveniences": [],
-  "userId": "63f381e4a6eb9c65cf84a767",
   "location": {
     "latitude": 53.550341,
     "longitude": 10.000654

@@ -49,6 +49,7 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
@@ -64,7 +65,7 @@ export default class UserController extends Controller {
   }
 
   public async create(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    { body, file }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
@@ -77,7 +78,7 @@ export default class UserController extends Controller {
       );
     }
 
-    const result = await this.userService.create(body, this.configService.get('SALT'));
+    const result = await this.userService.create({...body, avatar: file?.filename}, this.configService.get('SALT'));
     this.send(
       res,
       StatusCodes.CREATED,
