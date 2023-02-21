@@ -1,6 +1,7 @@
 import { User } from '../../types/user.type.js';
 import typegoose, { getModelForClass, defaultClasses } from '@typegoose/typegoose';
 import { createSHA256 } from '../../utils/common.js';
+import { VALIDATIONS } from './user.constant.js';
 
 const { prop, modelOptions } = typegoose;
 
@@ -22,7 +23,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.isPro = data.isPro;
   }
 
-  @prop({ minlength: 1, maxLength: 15, default: '', required: true })
+  @prop({ minlength: VALIDATIONS.username.minLength, maxLength: VALIDATIONS.username.maxLength, default: '', required: true })
   public username!: string;
 
   @prop({ unique: true, required: true })

@@ -3,6 +3,7 @@ import { OfferType } from '../../types/offer-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 import { Location } from '../../types/location.type.js';
 import { City } from '../../types/city.type.js';
+import { VALIDATIONS } from './offer.constant.js';
 
 const { prop, modelOptions } = typegoose;
 
@@ -15,10 +16,10 @@ export interface OfferEntity extends defaultClasses.Base {}
 })
 
 export class OfferEntity extends defaultClasses.TimeStamps {
-  @prop({ minlength: 10, maxLength: 100, trim: true, required: true })
+  @prop({ minlength: VALIDATIONS.title.minLength, maxLength: VALIDATIONS.title.maxLength, trim: true, required: true })
   public title!: string;
 
-  @prop({ minlength: 20, maxLength: 1024, trim: true, required: true })
+  @prop({ minlength: VALIDATIONS.description.minLength, maxLength: VALIDATIONS.description.maxLength, trim: true, required: true })
   public description!: string;
 
   @prop({
@@ -37,7 +38,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public premium!: boolean;
 
-  @prop({ required: true, min: 1, max: 5 })
+  @prop({ required: true, min: VALIDATIONS.rating.min, max: VALIDATIONS.rating.max })
   public rating!: number;
 
   @prop({
@@ -47,13 +48,13 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public type!: string;
 
-  @prop({ required: true, min: 1, max: 8 })
+  @prop({ required: true, min: VALIDATIONS.rooms.min, max: VALIDATIONS.rooms.max })
   public rooms!: number;
 
-  @prop({ required: true, min: 1, max: 10 })
+  @prop({ required: true, min: VALIDATIONS.guests.min, max: VALIDATIONS.guests.max })
   public guests!: number;
 
-  @prop({ required: true, min: 100, max: 100000 })
+  @prop({ required: true, min: VALIDATIONS.price.min, max: VALIDATIONS.price.max })
   public price!: number;
 
   @prop({
