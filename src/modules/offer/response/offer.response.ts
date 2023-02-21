@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { OfferType } from '../../../types/offer-type.enum';
+import { OfferType } from '../../../types/offer-type.enum.js';
 import { City } from '../../../types/city.type';
 
 export default class OfferResponseBrief {
@@ -28,5 +28,5 @@ export default class OfferResponseBrief {
   public rating!: number;
 
   @Expose()
-  public commentsCount!: number;
+  public commentsNum!: number;
 }

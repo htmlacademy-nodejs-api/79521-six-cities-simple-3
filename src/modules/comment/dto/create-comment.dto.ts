@@ -1,8 +1,9 @@
 import { IsMongoId, IsString, Length, Min, Max } from 'class-validator';
+import { VALIDATIONS } from '../comment.constant.js';
 
 export default class CreateCommentDto {
   @IsString({message: 'text is required'})
-  @Length(5, 1024, {message: 'Min length is 5, max is 1024'})
+  @Length(VALIDATIONS.text.minLength, VALIDATIONS.text.maxLength, {message: `Min length is ${VALIDATIONS.text.minLength}, max is ${VALIDATIONS.text.maxLength}`})
   public text!: string;
 
   @IsMongoId({message: 'offerId field must be a valid id'})
@@ -10,7 +11,7 @@ export default class CreateCommentDto {
 
   public userId!: string;
 
-  @Min(1, { message: 'Minimum rating must be 1' })
-  @Max(5, { message: 'Maximum rating must be 5' })
+  @Min(VALIDATIONS.rating.min, { message: `Minimum rating must be ${VALIDATIONS.rating.min}` })
+  @Max(VALIDATIONS.rating.max, { message: `Maximum rating must be ${VALIDATIONS.rating.max}` })
   public rating!: number;
 }
