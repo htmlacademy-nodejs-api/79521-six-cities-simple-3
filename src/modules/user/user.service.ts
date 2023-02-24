@@ -7,6 +7,7 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { Component } from '../../types/component.types.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import UpdateUserDto from './dto/update-user.dto.js';
+import { DEFAULT_AVATAR_FILE_NAME } from './user.constant.js';
 
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -19,7 +20,7 @@ export default class UserService implements UserServiceInterface {
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 
-    const result = await this.userModel.create(user);
+    const result = await this.userModel.create({ ...dto, avatar: DEFAULT_AVATAR_FILE_NAME });
     this.logger.info(`New user created: ${user.email}`);
 
     return result;
