@@ -19,6 +19,10 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import { UploadFilesMiddleware } from '../../common/middlewares/upload-files.middleware.js';
+import UploadThumbnailResponse from './response/upload-thumbnail.response.js';
+import UploadPicturesResponse from './response/upload-pictures.response.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -84,6 +88,26 @@ export default class OfferController extends Controller {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
     });
+    this.addRoute({
+      path: '/:offerId/image',
+      method: HttpMethod.Post,
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'thumbnail'),
+      ]
+    });
+    this.addRoute({
+      path: '/:offerId/pictures',
+      method: HttpMethod.Post,
+      handler: this.uploadImages,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFilesMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'pictures'),
+      ]
+    });
   }
 
   public async index(
@@ -143,5 +167,21 @@ export default class OfferController extends Controller {
 
     const comments = await this.commentService.findByOfferId(params.offerId);
     this.ok(res, fillDTO(CommentResponse, comments));
+  }
+
+  public async uploadImage(req: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response) {
+    const { offerId } = req.params;
+    const updateDto = { thumbnail: req.file?.filename };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadThumbnailResponse, updateDto ));
+  }
+
+  public async uploadImages(req: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response) {
+    const { offerId } = req.params;
+    const filenames = req.files && Array.isArray(req.files) ? req.files.map((image) => image.filename) : [];
+
+    const updateDto = { pictures: filenames };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadPicturesResponse, updateDto));
   }
 }

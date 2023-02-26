@@ -83,5 +83,5 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'HOST',
     default: 'localhost'
-  },
+  }
 });

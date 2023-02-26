@@ -10,7 +10,7 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "jssalekgfj@overlook.net",
+  "email": "arenaoks@overlook.net",
   "username": "Jack",
   "password": "shining",
   "isPro": true
@@ -18,13 +18,42 @@ Content-Type: application/json
 
 ###
 
+# ## Регистрация пользователя 2 (Не забудь отключить ValidateDTOMiddleware
+# POST http://localhost:5000/users/register HTTP/1.1
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="username"
+
+# petro
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="email"
+
+# petronkano@overlook.net
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="password"
+
+# testpass
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW
+# Content-Disposition: form-data; name="isPro"
+
+# true
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+# Content-Disposition: form-data; name="avatar"; filename="76.jpg"
+# Content-Type: image/png
+
+# < /Users/filyukov/tmp/76.jpg
+# ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+# ###
+
 ## Авторизация пользователя
 
 POST http://localhost:5000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "jsskgj@overlook.net",
+  "email": "arenaok@overlook.net",
   "password": "shining"
 }
 
@@ -70,10 +99,10 @@ Content-Type: application/json
 
 POST http://localhost:5000/offers/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZXQiLCJpZCI6IjYzZjM4MWU0YTZlYjljNjVjZjg0YTc2NyIsImlhdCI6MTY3NjkwMzI2MywiZXhwIjoxNjc3MDc2MDYzfQ.RwBNgMsSfw2gpXGj7TcJjHJp5Gh6yhsnvODbiH3fNFI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFyZW5hb2tAb3Zlcmxvb2submV0IiwiaWQiOiI2M2ZiMzhiYTkzYmU5MGNiNjk5OTQxMGEiLCJpYXQiOjE2Nzc0MjU3NzcsImV4cCI6MTY3NzU5ODU3N30.qYEgER2l7zh-n6Ju5zNYwwMhvFHWnB8YjnRi6F8ozpo
 
 {
-  "title": "some new title",
+  "title": "some new titl1e",
   "city": {
     "name": "Cologne",
     "location": {
@@ -81,8 +110,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZ
       "longitude": 6.959974
     }
   },
-  "thumbnail": "avatarname.png",
-  "pictures": ["picture1.jpg", "picture2.jpg", "picture3.jpg", "picture4.jpg", "picture5.jpg", "picture6.jpg"],
   "premium": true,
   "rating":  3.5,
   "type": "room",
@@ -98,6 +125,57 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Impzc2tnakBvdmVybG9vay5uZ
 }
 
 ###
+
+## Загрузка превью для оффера
+POST http://localhost:5000/offers/63fb8114613b9926e4cae02a/image HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFyZW5hb2tAb3Zlcmxvb2submV0IiwiaWQiOiI2M2ZiMzhiYTkzYmU5MGNiNjk5OTQxMGEiLCJpYXQiOjE2Nzc0MjU3NzcsImV4cCI6MTY3NzU5ODU3N30.qYEgER2l7zh-n6Ju5zNYwwMhvFHWnB8YjnRi6F8ozpo
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="thumbnail"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+## Загрузка изображений оффера
+POST http://localhost:5000/offers/63fb7d8a43f4d2f818e68ccf/pictures HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFyZW5hb2tAb3Zlcmxvb2submV0IiwiaWQiOiI2M2ZiMzhiYTkzYmU5MGNiNjk5OTQxMGEiLCJpYXQiOjE2Nzc0MjU3NzcsImV4cCI6MTY3NzU5ODU3N30.qYEgER2l7zh-n6Ju5zNYwwMhvFHWnB8YjnRi6F8ozpo
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pictures"; filename="76.jpg"
+Content-Type: image/png
+
+< /Users/filyukov/tmp/76.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 # Предложения
 ## Получение детальной информации о предложении

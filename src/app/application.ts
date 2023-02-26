@@ -58,7 +58,7 @@ export default class Application {
   public async init() {
     const PORT = this.config.get('PORT');
     this.logger.info('Application initialization…');
-    this.logger.info(`Get value from env $PORT: ${PORT}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
 
     const uri = getURI(
       this.config.get('DB_USER'),

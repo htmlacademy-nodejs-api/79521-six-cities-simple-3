@@ -8,8 +8,8 @@ export default class LoggedUserResponse {
   public email!: string;
 
   @Expose()
-  public avatar!: string;
+  public username!: string;
 
   @Expose()
-  public username!: string;
+  public avatar!: string;
 }
