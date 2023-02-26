@@ -27,11 +27,12 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public city!: City;
 
-  @prop({ required: true })
+  @prop({default: ''})
   public thumbnail!: string;
 
   @prop({
     type: () => Array,
+    default: [],
   })
   public pictures!: string[];
 

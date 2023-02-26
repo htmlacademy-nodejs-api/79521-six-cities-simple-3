@@ -18,6 +18,7 @@ import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middl
 import LoggedUserResponse from './response/logged-user.response.js';
 import { JWT_ALGORITM } from './user.constant.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import UploadUserAvatarResponse from './response/upload-user-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -105,7 +106,10 @@ export default class UserController extends Controller {
       { email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, { email: user.email, token }));
+    this.ok(res, {
+      ...fillDTO(LoggedUserResponse, user),
+      token
+    });
   }
 
   public async uploadAvatar(req: Request, res: Response) {
@@ -113,9 +117,7 @@ export default class UserController extends Controller {
     const uploadFile = { avatar: req.file?.filename };
     await this.userService.updateById(userId, uploadFile);
 
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 
   public async checkAuthenticate(req: Request, res: Response) {

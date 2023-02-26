@@ -1,7 +1,7 @@
 import { OfferType } from '../../../types/offer-type.enum.js';
 import { City } from '../../../types/city.type.js';
 import { Location } from '../../../types/location.type.js';
-import { IsString, IsArray, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, ArrayMinSize, ArrayMaxSize, IsObject } from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsInt, Max, MaxLength, Min, MinLength, IsObject } from 'class-validator';
 import { VALIDATIONS } from '../offer.constant.js';
 
 export default class CreateOfferDto {
@@ -16,13 +16,9 @@ export default class CreateOfferDto {
   @IsObject({message: 'City should be represented as object'})
   public city!: City;
 
-  @IsString({message: 'Thumbnail is required'})
-  public thumbnail!: string;
+  public thumbnail?: string;
 
-  @IsArray({message: 'Field pictures must be an array'})
-  @ArrayMinSize(VALIDATIONS.pictures.number, { message: `Minimum must be ${VALIDATIONS.pictures.number} picture` })
-  @ArrayMaxSize(VALIDATIONS.pictures.number, { message: `Maximum must be ${VALIDATIONS.pictures.number} picture` })
-  public pictures!: string[];
+  public pictures?: string[];
 
   @IsBoolean({message: 'Field premium must be boolean'})
   public premium!: boolean;
