@@ -10,7 +10,7 @@ POST http://localhost:5000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "appolones@overlook.net",
+  "email": "arena@overlook.net",
   "username": "Jack",
   "password": "shining",
   "isPro": true
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-# ## Регистрация пользователя 2
+# ## Регистрация пользователя 2 (Не забудь отключить ValidateDTOMiddleware
 # POST http://localhost:5000/users/register HTTP/1.1
 # Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
